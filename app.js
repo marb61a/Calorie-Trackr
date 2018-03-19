@@ -40,6 +40,11 @@ const ItemCtrl = (function(){
 // Ui Controller
 // Function uses the IIFE pattern
 const UICtrl = (function(){
+    const UISelectors = {
+        itemList: '#item-list',
+        addBtn: '#add-btn'
+    };
+    
     // Public Methods
     return {
         populateItemList: function(items){
@@ -55,7 +60,16 @@ const UICtrl = (function(){
             });
             
             // Insert list items
-            document.querySelector('#item-list').innerHTML = html;
+            document.querySelector(UISelectors.itemList).innerHTML = html;
+        },
+        getItemInput: function(){
+            return {
+                name: '',
+                calories: ''
+            }; 
+        },
+        getSelectors: function(){
+            return UISelectors;
         }
     };
     
@@ -64,6 +78,24 @@ const UICtrl = (function(){
 // App Controller
 // Function uses the IIFE pattern
 const App = (function(ItemCtrl, UICtrl){
+    // Loads event listeners
+    const loadEventListeners = function(){
+        // Get UI selectors
+        const UISelectors = UICtrl.getSelectors();
+        
+        // Add an item event
+        document.querySelector(UISelectors.addBtn).addEventListener('click', itemAddSubmit);
+    };
+    
+    // Add item submit
+    const itemAddSubmit = function(e){
+        // Get form input from UI controller
+        const input = UICtrl.getItemInput();
+        
+        e.preventDefault();
+        
+    };
+    
     // Public Methods
     return {
         init: function(){
@@ -72,6 +104,9 @@ const App = (function(ItemCtrl, UICtrl){
             
             // Populate list with items
             UICtrl.populateItemList(items);
+            
+            // Load event listeners
+            loadEventListeners();
         }
     };
     
