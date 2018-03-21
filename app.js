@@ -28,7 +28,27 @@ const ItemCtrl = (function(){
         getItems: function(){
             return data.items;    
         },
-        
+        addItem: function(name, calories){
+            let ID;
+            
+            // Create ID for the items
+            if(data.items.length > 0){
+                ID = data.items[data.items.length - 1].id + 1;
+            } else {
+                ID = 0;
+            }
+            
+            // Parsing calories to number
+            calories = parseInt(calories);
+            
+            // Create a new item
+            newItem = new Item(id, name, calories);
+            
+            // Push the new item to the data structure
+            data.items.push(newItem);
+            
+            return newItem;
+        },
         logData: function(){
             return data;    
         }
@@ -42,7 +62,9 @@ const ItemCtrl = (function(){
 const UICtrl = (function(){
     const UISelectors = {
         itemList: '#item-list',
-        addBtn: '#add-btn'
+        addBtn: '#add-btn',
+        itemNameInput: '#item-name',
+        itemCaloriesInput: '#item-calories'
     };
     
     // Public Methods
@@ -64,8 +86,8 @@ const UICtrl = (function(){
         },
         getItemInput: function(){
             return {
-                name: '',
-                calories: ''
+                name: document.querySelector(UISelectors.itemNameInput).value,
+                calories: document.querySelector(UISelectors.itemCaloriesInput).value
             }; 
         },
         getSelectors: function(){
@@ -91,6 +113,12 @@ const App = (function(ItemCtrl, UICtrl){
     const itemAddSubmit = function(e){
         // Get form input from UI controller
         const input = UICtrl.getItemInput();
+        
+        // Ensure that meal and calories have values to be input
+        if(input.name !== '' && input.calories !== ''){
+            // Add an item
+            const newItem = ItemCtrl.addItem(input.name, input.calories);
+        }
         
         e.preventDefault();
         
