@@ -218,11 +218,44 @@ const App = (function(ItemCtrl, UICtrl){
             // Add the total calories to the UI
             UICtrl.showTotalCalories(totalCalories);
             
+            // Store in local storage
+            StorageCtrl.storeItem(newItem);
+            
             // Clear input fields
             UICtrl.clearInput();
         }
         
         e.preventDefault();
+        
+    };
+    
+    // Click item edit
+    const itemEditClick = function(e){
+        if(e.target.classList.contains('edit-item')){
+            // Get the list item id
+            const listId = e.target.parentNode.parentNode.id;
+            
+            // Split into an array
+            const listIdArr = listId.split('-');
+            
+            // Get the actual id
+            const id = parseInt(listIdArr[1]);
+            
+            // Get item
+            const itemToEdit = ItemCtrl.getItemById(id);
+            
+            // Set the current item
+            ItemCtrl.setCurrentItem(itemToEdit);
+            
+            // Add the item to the form
+             UICtrl.addItemToForm();
+        }
+        
+        e.preventDefault();
+    };
+    
+    // Update item submit
+    const itemUpdateSubmit = function(e){
         
     };
     
