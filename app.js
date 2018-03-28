@@ -151,6 +151,12 @@ const UICtrl = (function(){
             document.querySelector(UISelectors.backBtn).style.display = 'none';
             document.querySelector(UISelectors.addBtn).style.display = 'inline';
         },
+        showEditState: function(){
+            document.querySelector(UISelectors.updateBtn).style.display = 'inline';
+            document.querySelector(UISelectors.deleteBtn).style.display = 'inline';
+            document.querySelector(UISelectors.backBtn).style.display = 'inline';
+            document.querySelector(UISelectors.addBtn).style.display = 'none';
+        },
         getSelectors: function(){
             return UISelectors;
         }
@@ -169,8 +175,28 @@ const App = (function(ItemCtrl, UICtrl){
         // Add an item event
         document.querySelector(UISelectors.addBtn).addEventListener('click', itemAddSubmit);
         
-        // Edit an icon click event
-        document.querySelector(UISelectors.itemList).addEventListener('click', itemUpdateSubmit);
+        // Disable submit on enter
+        document.addEventListener('keypress', function(e){
+            if(e.keyCode === 13 || e.which === 13){
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        // Edit icon click event
+        document.querySelector(UISelectors.itemList).addEventListener('click', itemEditClick);
+    
+        // Update item event
+        document.querySelector(UISelectors.updateBtn).addEventListener('click', itemUpdateSubmit);
+    
+        // Delete item event
+        document.querySelector(UISelectors.deleteBtn).addEventListener('click', itemDeleteSubmit);
+    
+         // Back button event
+         document.querySelector(UISelectors.backBtn).addEventListener('click', UICtrl.clearEditState);
+    
+         // Clear items event
+        document.querySelector(UISelectors.clearBtn).addEventListener('click', clearAllItemsClick);
     };
     
     // Add item submit
@@ -229,7 +255,7 @@ const App = (function(ItemCtrl, UICtrl){
         }
     };
     
-})(ItemCtrl, UICtrl);
+})(ItemCtrl, StorageCtrl, UICtrl);
 
 // Initialise the app
 App.init();
