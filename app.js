@@ -1,6 +1,34 @@
 "use strict"
 
 // Storage Controller
+const StorageCtrl = (function(){
+    // Public methods
+    return {
+        storeItem: function(item){
+            let items;
+            
+            // Check if there are any items in local storage
+            if(localStorage.getItem('items' === null)){
+                items = [];
+                
+                // Push new item
+                items.push(item);
+                
+                // Set local storage
+                localStorage.setItem('items', JSON.stringify(items));
+            } else {
+                // Get what is already in local storage
+                items = JSON.parse(localStorage.getItem('items'));
+                
+                // Push new item
+                items.push(item);
+                
+                // Set local storage
+                localStorage.setItem('items', JSON.stringify(items));
+            }
+        }    
+    };
+})();
 
 
 // Item Controller
