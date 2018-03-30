@@ -78,12 +78,14 @@ const ItemCtrl = (function(){
     
     // Data Structure, similar to state in React applications
     const data = {
-        items: [
-            // {id: 0, name: 'Steak Dinner', calories: 1200},
-            // {id: 1, name: 'Chocolate', calories: 300},
-            // {id: 2, name: 'Eggs', calories: 400}
+        // items: [
+        //     {id: 0, name: 'Steak Dinner', calories: 1200},
+        //     {id: 1, name: 'Chocolate', calories: 300},
+        //     {id: 2, name: 'Eggs', calories: 400}
             
-        ],
+        // ],
+        
+        items: StorageCtrl.getItemsFromStorage(),
         currentItem: null,
         totalCalories: 0
     };
@@ -113,6 +115,32 @@ const ItemCtrl = (function(){
             data.items.push(newItem);
             
             return newItem;
+        },
+        getItemById: function(id){
+            let found = null;
+            
+            // Loop through items
+            data.items.forEach(function(item) {
+                if(item.id === id){
+                    found = item;
+                }
+            });
+            
+            return found;
+        },
+        updateItem: function(name, calories){
+            calories = parseInt(calories); 
+            let found = null;
+            
+            data.items.forEach(function(item) {
+                if(item.id === data.currentItem.id){
+                    item.name = name;
+                    item.calories = calories;
+                    found = item;
+                }
+            });
+            
+            return found;
         },
         getTotalCalories: function(){
             let total = 0;
