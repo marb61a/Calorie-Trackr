@@ -142,6 +142,27 @@ const ItemCtrl = (function(){
             
             return found;
         },
+        deleteItem: function(id){
+            // Get items id's
+            const ids = data.items.map(function(item){
+                return item.id;
+            });
+            
+            // Get index
+            const index = ids.indexOf(id);
+            
+            // Remove item
+            data.items.splice(index, 1);
+        },
+        clearAllItems: function(){
+            data.items = [];
+        },
+        setCurrentItem: function(item){
+            data.currentItem = item;
+        },
+        getCurrentItem: function(){
+            return data.currentItem;
+        },
         getTotalCalories: function(){
             let total = 0;
             
@@ -222,6 +243,9 @@ const UICtrl = (function(){
             
             // Insert item
             document.querySelector(UISelectors.itemList).insertAdjacentElement('beforeend', li);
+        },
+        updateListItem: function(item){
+            let listItems = document.querySelectorAll(UISelectors.listItems);    
         },
         clearInput: function(){
             document.querySelector(UISelectors.itemNameInput).value = '';
